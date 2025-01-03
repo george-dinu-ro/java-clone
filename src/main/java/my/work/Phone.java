@@ -13,11 +13,5 @@ import lombok.Setter;
 @Setter
 public class Phone {
 
-	public enum Type {
-		HOME, MOBILE, WORK
-	}
-
 	private String number;
-
-	private Type type;
 }

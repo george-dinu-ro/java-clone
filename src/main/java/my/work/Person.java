@@ -7,21 +7,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
-public class Person {
+@ToString
+public class Person implements Cloneable {
 
-	private String firstName;
-
-	private String lastName;
+	private String name;
 
 	private int age;
 
 	private List<Phone> phones;
 
 	private Address address;
+
+	@Override
+	public Person clone() throws CloneNotSupportedException {
+		return (Person) super.clone();
+	}
+	
 }
