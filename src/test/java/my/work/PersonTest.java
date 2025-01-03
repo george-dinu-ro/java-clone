@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class PersonTest {
 
 	@Test
-	void givenShallowClone_thenMutablePropertiesWillReuseReferences() throws CloneNotSupportedException {
+	void givenDeepClone_thenMutablePropertiesWillNotReuseReferences() throws CloneNotSupportedException {		
 		var originalPerson = Person.builder()
 				.name("John")
 				.age(25)
@@ -26,7 +26,7 @@ class PersonTest {
 
 		var clonedPerson = originalPerson.clone();
 		
-		assertSameValues(originalPerson, clonedPerson);
+		assertSameValuesAndDifferentReferences(originalPerson, clonedPerson);
 		
 		originalPerson.setName("Jane");
 		originalPerson.setAge(30);
@@ -34,28 +34,30 @@ class PersonTest {
 		originalPerson.getAddress().setNumber(20);
 		originalPerson.getPhones().get(0).setNumber("987654321");
 		
-		assertImmutableNotChangedAndMutableChanged(originalPerson, clonedPerson);
+		assertClonedValuesNotChanged(originalPerson, clonedPerson);
 	}
 
-	private void assertSameValues(Person originalPerson, Person clonedPerson) {
+	private void assertSameValuesAndDifferentReferences(Person originalPerson, Person clonedPerson) {
 		assertThat(originalPerson).isNotSameAs(clonedPerson);
 		
 		assertThat(originalPerson.getName()).isEqualTo(clonedPerson.getName());
 
 		assertThat(originalPerson.getAge()).isEqualTo(clonedPerson.getAge());
 		
-		assertThat(originalPerson.getAddress()).isSameAs(clonedPerson.getAddress());
+		assertThat(originalPerson.getAddress()).isNotSameAs(clonedPerson.getAddress());
 				
 		assertThat(originalPerson.getAddress().getStreet()).isEqualTo(clonedPerson.getAddress().getStreet());
 
 		assertThat(originalPerson.getAddress().getNumber()).isEqualTo(clonedPerson.getAddress().getNumber());
 		
-		assertThat(originalPerson.getPhones()).isSameAs(clonedPerson.getPhones());
+		assertThat(originalPerson.getPhones()).isNotSameAs(clonedPerson.getPhones());
+
+		assertThat(originalPerson.getPhones().get(0)).isNotSameAs(clonedPerson.getPhones().get(0));
 
 		assertThat(originalPerson.getPhones().get(0).getNumber()).isEqualTo(clonedPerson.getPhones().get(0).getNumber());
 	}
 	
-	private void assertImmutableNotChangedAndMutableChanged(Person originalPerson, Person clonedPerson) {		
+	private void assertClonedValuesNotChanged(Person originalPerson, Person clonedPerson) {		
 		assertThat(originalPerson).isNotSameAs(clonedPerson);
 		
 		assertThat(originalPerson.getName()).isEqualTo("Jane");
@@ -66,15 +68,23 @@ class PersonTest {
 
 		assertThat(clonedPerson.getAge()).isEqualTo(25);
 		
-		assertThat(originalPerson.getAddress()).isSameAs(clonedPerson.getAddress());
+		assertThat(originalPerson.getAddress()).isNotSameAs(clonedPerson.getAddress());
 				
-		assertThat(originalPerson.getAddress().getStreet()).isEqualTo(clonedPerson.getAddress().getStreet());
+		assertThat(originalPerson.getAddress().getStreet()).isEqualTo("Second Street");
 
-		assertThat(originalPerson.getAddress().getNumber()).isEqualTo(clonedPerson.getAddress().getNumber());
+		assertThat(clonedPerson.getAddress().getStreet()).isEqualTo("Main Street");
+
+		assertThat(originalPerson.getAddress().getNumber()).isEqualTo(20);
+
+		assertThat(clonedPerson.getAddress().getNumber()).isEqualTo(10);
 		
-		assertThat(originalPerson.getPhones()).isSameAs(clonedPerson.getPhones());
+		assertThat(originalPerson.getPhones()).isNotSameAs(clonedPerson.getPhones());
 
-		assertThat(originalPerson.getPhones().get(0).getNumber()).isEqualTo(clonedPerson.getPhones().get(0).getNumber());
+		assertThat(originalPerson.getPhones().get(0)).isNotSameAs(clonedPerson.getPhones().get(0));
+
+		assertThat(originalPerson.getPhones().get(0).getNumber()).isEqualTo("987654321");
+
+		assertThat(clonedPerson.getPhones().get(0).getNumber()).isEqualTo("123456789");
 	}
 	
 }

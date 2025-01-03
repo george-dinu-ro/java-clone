@@ -29,7 +29,15 @@ public class Person implements Cloneable {
 
 	@Override
 	public Person clone() throws CloneNotSupportedException {
-		return (Person) super.clone();
+		var person = (Person) super.clone();
+		person.setAddress(address.clone());
+		person.setPhones(new ArrayList<>());
+
+		for (var phone : phones) {
+			person.getPhones().add(phone.clone());
+		}
+
+		return person;
 	}
-	
+
 }

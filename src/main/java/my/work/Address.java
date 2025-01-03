@@ -13,9 +13,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Address {
+public class Address implements Cloneable {
 
 	private String street;
 
 	private int number;
+
+	@Override
+	protected Address clone() throws CloneNotSupportedException {
+		return (Address) super.clone();
+	}
+
 }

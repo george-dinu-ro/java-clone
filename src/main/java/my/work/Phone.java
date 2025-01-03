@@ -11,7 +11,13 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class Phone {
+public class Phone implements Cloneable {
 
 	private String number;
+
+	@Override
+	protected Phone clone() throws CloneNotSupportedException {
+		return (Phone) super.clone();
+	}
+	
 }
