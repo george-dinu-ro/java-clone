@@ -1,5 +1,6 @@
 package my.work;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +22,8 @@ public class Person {
 
 	private int age;
 
-	private List<Phone> phones;
+	@Builder.Default
+	private List<Phone> phones = new ArrayList<>();
 
 	private Address address;
 }
