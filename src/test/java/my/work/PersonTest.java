@@ -26,7 +26,7 @@ class PersonTest {
 
 		var clonedPerson = originalPerson.clone();
 		
-		assertSameValues(originalPerson, clonedPerson);
+		assertSameValuesAndSameReferences(originalPerson, clonedPerson);
 		
 		originalPerson.setName("Jane");
 		originalPerson.setAge(30);
@@ -37,7 +37,7 @@ class PersonTest {
 		assertImmutableNotChangedAndMutableChanged(originalPerson, clonedPerson);
 	}
 
-	private void assertSameValues(Person originalPerson, Person clonedPerson) {
+	private void assertSameValuesAndSameReferences(Person originalPerson, Person clonedPerson) {
 		assertThat(originalPerson).isNotSameAs(clonedPerson);
 		
 		assertThat(originalPerson.getName()).isEqualTo(clonedPerson.getName());
