@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class PersonTest {
 
 	@Test
-	void givenDeepClone_thenMutablePropertiesWillNotReuseReferences() throws CloneNotSupportedException {		
+	void givenDeepClone_thenMutablePropertiesWillNotReuseReferences() {		
 		var originalPerson = Person.builder()
 				.name("John")
 				.age(25)
@@ -24,7 +24,7 @@ class PersonTest {
 						.build()))
 				.build();
 
-		var clonedPerson = originalPerson.clone();
+		var clonedPerson = new Person(originalPerson);
 		
 		assertSameValuesAndDifferentReferences(originalPerson, clonedPerson);
 		

@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Person implements Cloneable {
+public class Person {
 
 	private String name;
 
@@ -27,17 +27,11 @@ public class Person implements Cloneable {
 
 	private Address address;
 
-	@Override
-	public Person clone() throws CloneNotSupportedException {
-		var person = (Person) super.clone();
-		person.setAddress(address.clone());
-		person.setPhones(new ArrayList<>());
-
-		for (var phone : phones) {
-			person.getPhones().add(phone.clone());
-		}
-
-		return person;
+	public Person(Person person) {
+		this.name = person.name;
+		this.age = person.age;
+		this.phones = person.phones.stream().map(Phone::new).toList();
+		this.address = new Address(person.address);
 	}
 
 }
